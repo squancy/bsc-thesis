@@ -13,7 +13,7 @@ matplotlib.rcParams['font.family'] = 'serif'
 def perform_experiment(N, repeat, cs, alphas):
     """
     Generates N i.i.d. Pareto distributed random variables, estimates its parameters c and alpha
-    and counts the number of random variables that are smaller than c.
+    and counts the number of random variables that are at least c.
     Then repeats the experiment [repeat] times and calculates the estimated probability.
     """
     p = []
@@ -32,15 +32,14 @@ def plot_prob(p, cs, alphas):
     """
     fig, ax = plt.subplots(figsize=(12, 8))
     x_labels = [f"$({c}, {alpha})$" for c, alpha in zip(cs, alphas)]
-    sns.lineplot(x=range(len(p)), y=p, ax=ax, marker="o", label=r"Estimated $\mathbb{P}$(X > c)", color='blue')
+    sns.lineplot(x=range(len(p)), y=p, ax=ax, marker="o", label=r"Estimated $\mathbb{P}(min(X_i) \geq \hat{c})$", color='blue')
 
     ax.set_xlabel(r"(c, $\alpha$)", fontsize=16, labelpad=20)
-    ax.set_ylabel(r"Estimated $\mathbb{P}(X > c)$", fontsize=16, labelpad=30)
+    ax.set_ylabel(r"Estimated $\mathbb{P}(min(X_i) \geq \hat{c})$", fontsize=16, labelpad=30)
     n = 7  # Keeps every 7th label for readability
     ax.set_xticks(range(0, len(x_labels), n))
     ax.set_xticklabels([x_labels[i] for i in range(0, len(x_labels), n)], rotation=30, ha="right", fontsize=14)
     
-    ax.set_title(r"Estimated Probability of X > c", fontsize=20)
     sns.despine()
     plt.tight_layout()
 
